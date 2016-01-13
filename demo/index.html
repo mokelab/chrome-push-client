@@ -10,8 +10,8 @@
 </header>
 <script src="../bin/GCMClientImpl.js"></script>
 <script type="text/javascript">
+var client = new GCMClientImpl();
 window.addEventListener('load', function () {
-  var client = new GCMClientImpl();
   if (!client.isServiceWorkerEnabled()) {
     console.log('Service worker is disabled...');
     return;
@@ -20,7 +20,20 @@ window.addEventListener('load', function () {
     console.log('Notification is disabled...');
     return;
   }
+  navigator.serviceWorker.register('/service-worker.js')  
+    .then(initialiseState);  
 });
+
+function initialiseState() {
+  client.getSubscription({
+    success : function(token) {
+      console.log('push token = ' + token);
+    },
+    error : function(err) {
+      console.log('failed to subscribe ' + err);
+    }
+  });
+}
 </script>
 </body>
 </html>
