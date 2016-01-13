@@ -30,7 +30,7 @@ function initialiseState() {
       if (token == null) {
         subscribe();
       }
-      console.log('token=' + token');
+      console.log('token=' + token);
     },
     error : function(err) {
       console.log('failed to get subscription ' + err);
@@ -41,7 +41,7 @@ function initialiseState() {
 function subscribe() {
   client.subscribe({
     success : function(token) {
-      console.log('token=' + token');
+      console.log('token=' + token);
     },
     error : function(err) {
       console.log('failed to subscribe ' + err);
