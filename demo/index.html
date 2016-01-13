@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Demo : GCM for Chrome</title>
+  <link rel="manifest" href="./manifest.json">
+</head>
+<body>
+<header>
+  <h1>Demo : GCM for Chrome</h1>
+</header>
+<script src="../bin/GCMClientImpl.js"></script>
+<script type="text/javascript">
+window.addEventListener('load', function () {
+  var client = new GCMClientImpl();
+  if (!client.isServiceWorkerEnabled()) {
+    console.log('Service worker is disabled...');
+    return;
+  }
+  if (!client.isNotificationEnabled()) {
+    console.log('Notification is disabled...');
+    return;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+"name": "Demo : GCM for Chrome",
+"short_name": "GCMDemo",
+"icons": [{
+    "src": "img/icon-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+}],
+"start_url": "/index.html",
+"display": "standalone",
+"gcm_sender_id": "962139734066",
+"gcm_user_visible_only": true
+}
