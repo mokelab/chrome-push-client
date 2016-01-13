@@ -20,7 +20,7 @@ window.addEventListener('load', function () {
     console.log('Notification is disabled...');
     return;
   }
-  navigator.serviceWorker.register('/service-worker.js')  
+  navigator.serviceWorker.register('./service-worker.js')  
     .then(initialiseState);  
 });
 
