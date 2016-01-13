@@ -15,6 +15,11 @@ interface GCMClient {
      * Gets subscription ID(device token)
      */
     getSubscription(callback : SubscriptionCallback);
+
+    /**
+     * Subsccribes.
+     */
+    subscribe(callback : SubscriptionCallback);
 }
 
 interface SubscriptionCallback {
