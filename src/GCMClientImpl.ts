@@ -33,7 +33,7 @@ class GCMClientImpl implements GCMClient {
 
     subscribe(callback : SubscriptionCallback) {
         (<any>navigator).serviceWorker.ready.then(function(serviceWorkerRegistration) {  
-            serviceWorkerRegistration.pushManager.subscribe()  
+            serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
                 .then(function(subscription) {
                     if (!subscription) {
                         callback.error('Subscription is empty');
