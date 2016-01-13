@@ -27,7 +27,21 @@ window.addEventListener('load', function () {
 function initialiseState() {
   client.getSubscription({
     success : function(token) {
-      console.log('push token = ' + token);
+      if (token == null) {
+        subscribe();
+      }
+      console.log('token=' + token');
+    },
+    error : function(err) {
+      console.log('failed to get subscription ' + err);
+    }
+  });
+}
+
+function subscribe() {
+  client.subscribe({
+    success : function(token) {
+      console.log('token=' + token');
     },
     error : function(err) {
       console.log('failed to subscribe ' + err);
