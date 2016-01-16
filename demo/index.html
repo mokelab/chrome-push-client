@@ -16,7 +16,7 @@
 </section>
 
 <script src="https://code.jquery.com/jquery-1.9.0.min.js"></script>
-<script src="https://fkmhrk.github.io/kiilib_typescript/bin/KiiLib-jquery.js"></script>
+<script src="./KiiLib-jquery.js"></script>
 <script src="../bin/GCMClientImpl.js"></script>
 <script type="text/javascript">
 var client = new GCMClientImpl();
@@ -78,6 +78,20 @@ function signup() {
     },
     error : function(status, msg) {
       console.log('Failed to signup status=' + status + ' msg=' + msg);
+    }
+  });
+}
+
+function login() {
+  var email = $('#email').val();
+  var password = $('#pass').val();
+
+  api.login(email, password, {
+    success : function(user) {
+      console.log('Done token=' + context.getAccessToken());
+    },
+    error : function(status, msg) {
+      console.log('Failed to login status=' + status + ' msg=' + msg);
     }
   });
 }
