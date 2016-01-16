@@ -832,6 +832,7 @@ var jquery;
             client.setUrl(url);
             client.setMethod('POST');
             client.setKiiHeader(c, true);
+            client.setContentType('application/vnd.kii.InstallationCreationRequest+json');
             client.send({
                 onReceive: function (status, headers, body) {
                     if (callback === undefined) {

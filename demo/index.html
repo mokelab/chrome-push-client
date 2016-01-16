@@ -93,6 +93,8 @@ function login() {
       console.log('Done token=' + context.getAccessToken());
       if (app.token == null) {
         subscribe();
+      } else {
+        installDevice();
       }
     },
     error : function(status, msg) {
