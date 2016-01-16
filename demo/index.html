@@ -53,6 +53,8 @@ function subscribe() {
   client.subscribe({
     success : function(token) {
       console.log('token=' + token);
+      app.token = token;
+      installDevice();
     },
     error : function(err) {
       console.log('failed to subscribe ' + err);
@@ -89,12 +91,27 @@ function login() {
   api.login(email, password, {
     success : function(user) {
       console.log('Done token=' + context.getAccessToken());
+      if (app.token == null) {
+        subscribe();
+      }
     },
     error : function(status, msg) {
       console.log('Failed to login status=' + status + ' msg=' + msg);
     }
   });
 }
+
+function installDevice() {
+  api.userAPI().installDevice(null, 'ANDROID', app.token, false, {
+    success : function() {
+      console.log('Done install');
+    },
+    error : function(status, msg) {
+      console.log('Failed to install device status=' + status + ' msg=' + msg);
+    }
+  });
+}
+
 </script>
 </body>
 </html>
