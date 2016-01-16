@@ -8,9 +8,22 @@
 <header>
   <h1>Demo : GCM for Chrome</h1>
 </header>
+<section>
+  <label>email</label><input id="email" type="text"/><br/>
+  <label>password</label><input id="pass" type="password"/><br/>
+  <button onclick="signup()">Sign up</button></br>
+  <button onclick="login()">Log in</button></br>
+</section>
+
+<script src="https://code.jquery.com/jquery-1.9.0.min.js"></script>
+<script src="https://raw.githubusercontent.com/fkmhrk/kiilib_typescript/master/bin/KiiLib-jquery.js"></script>
 <script src="../bin/GCMClientImpl.js"></script>
 <script type="text/javascript">
 var client = new GCMClientImpl();
+var app = {
+  token : null
+};
+
 window.addEventListener('load', function () {
   if (!client.isServiceWorkerEnabled()) {
     console.log('Service worker is disabled...');
@@ -27,9 +40,7 @@ window.addEventListener('load', function () {
 function initialiseState() {
   client.getSubscription({
     success : function(token) {
-      if (token == null) {
-        subscribe();
-      }
+      app.token = token;
       console.log('token=' + token);
     },
     error : function(err) {
@@ -45,6 +56,25 @@ function subscribe() {
     },
     error : function(err) {
       console.log('failed to subscribe ' + err);
+    }
+  });
+}
+
+/**
+ * Kii Cloud related functions
+ */
+var context = new Kii.KiiContext('f77252ad', '47d9cc792acfd1316e5d1300fe206cda', 'https://api-jp.kii.com/api');
+var api = new Kii.KiiAppApi(context);
+
+function signup() {
+  var email = $('#email').val();
+  var password = $('#pass').val();
+  api.signup(params, password, {
+    success : function(user) {
+      console.log('Done');
+    },
+    error : function(status, msg) {
+      console.log('Failed to signup status=' + status + ' msg=' + msg);
     }
   });
 }
