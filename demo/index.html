@@ -149,8 +149,8 @@ function installDevice() {
 
 function createTopic() {
   return new Promise(function(resolve, reject){
-    var user = new KiiUser(app.userId);
-    var topic = new KiiTopic(user, 'demo');
+    var user = new Kii.KiiUser(app.userId);
+    var topic = new Kii.KiiTopic(user, 'demo');
     api.topicAPI().create(topic, {
       success : function() {
         resolve();
@@ -165,8 +165,8 @@ function createTopic() {
 
 function subscribeTopic() {
   return new Promise(function(resolve, reject){
-    var user = new KiiUser(app.userId);
-    var topic = new KiiTopic(user, 'demo');
+    var user = new Kii.KiiUser(app.userId);
+    var topic = new Kii.KiiTopic(user, 'demo');
     api.userAPI().subscribe(user, topic, {
       success : function() {
         resolve();
