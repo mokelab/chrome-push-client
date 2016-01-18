@@ -74,14 +74,8 @@ function signup() {
   var params = {
     emailAddress : email
   };
-  api.signUp(params, password, {
-    success : function(user) {
-      console.log('Done');
-    },
-    error : function(status, msg) {
-      console.log('Failed to signup status=' + status + ' msg=' + msg);
-    }
-  });
+  signupAsync(email, password)
+  .then(loginAsync(email, password));
 }
 
 function login() {
@@ -111,6 +105,37 @@ function installDevice() {
     error : function(status, msg) {
       console.log('Failed to install device status=' + status + ' msg=' + msg);
     }
+  });
+}
+
+function signupAsync(email, password) {
+  return new Promise(function(resolve, reject){
+    var params = {
+      emailAddress : email
+    };
+    api.signUp(params, password, {
+      success : function(user) {
+        resolve();
+      },
+      error : function(status, msg) {
+        console.log('Failed to signup status=' + status + ' msg=' + msg);
+        reject();
+      }
+    });
+  });
+}
+
+function loginAsync(email, password) {
+  return new Promise(function(resolve, reject){
+    api.login(email, password, {
+      success : function(user) {
+        resolve();
+      },
+      error : function(status, msg) {
+        console.log('Failed to login status=' + status + ' msg=' + msg);
+        reject();
+      }
+    });
   });
 }
 
