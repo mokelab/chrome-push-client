@@ -105,6 +105,11 @@ function login() {
   }
 }
 
+function sendMessage() {
+  sendMessageAsync()
+    .then(function(){ console.log('Done'); });
+}
+
 function signupAsync(email, password) {
   return new Promise(function(resolve, reject){
     var params = {
@@ -183,10 +188,27 @@ function subscribeTopic() {
   });
 }
 
+function sendMessageAsync() {
+  return new Promise(function(resolve, reject){
+    var user = new Kii.KiiUser(app.userId);
+    var topic = new Kii.KiiTopic(user, 'demo');
+    var message = new Kii.KiiTopicMessage();
+    api.topicAPI().sendMessage(topic, message, {
+      success : function() {
+        resolve();
+      },
+      error : function(status, msg) {
+        console.log('Failed to send message status=' + status + ' msg=' + msg);
+        reject();
+      }
+    });
+  });
+}
+
 function showSendButton() {
   $('#button_signup').hide();
   $('#button_login').hide();
-  $('#button_login').show();
+  $('#button_send').show();
   Promise.resolve();
 }
 
