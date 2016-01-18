@@ -873,7 +873,7 @@ var jquery;
                 user.getPath();
             var client = c.getNewClient();
             client.setUrl(url);
-            client.setMethod('POST');
+            client.setMethod('PUT');
             client.setKiiHeader(c, true);
             client.send({
                 onReceive: function (status, headers, body) {
