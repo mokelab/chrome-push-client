@@ -66,7 +66,12 @@ var jquery;
                     callback.onReceive(data.status, data.getAllResponseHeaders(), JSON.parse(data.responseText));
                 }
             }).fail(function (data) {
-                callback.onError(data.status, data.responseText);
+                if (data.status == 204) {
+                    callback.onReceive(data.status, data.getAllResponseHeaders(), {});
+                }
+                else {
+                    callback.onError(data.status, data.responseText);
+                }
             });
         };
         return JQueryClient;
