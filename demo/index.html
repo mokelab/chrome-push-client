@@ -156,6 +156,7 @@ function createTopic() {
         resolve();
       },
       error : function(status, msg) {
+        if (status == 204) { resolve(); return; } // TODO fix KiiLib...
         console.log('Failed to create status=' + status + ' msg=' + msg);
         reject();
       }
