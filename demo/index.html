@@ -78,7 +78,7 @@ function signup() {
     emailAddress : email
   };
   signupAsync(email, password)
-  .then(loginAsync(email, password));
+  .then(function(){ return loginAsync(email, password);});
 }
 
 function login() {
@@ -87,12 +87,12 @@ function login() {
 
   if (app.token == null) {
     loginAsync(email, password)
-      .then(subscribe())
-      .then(installDevice());
+      .then(subscribe)
+      .then(installDevice);
   } else {
     loginAsync(email, password)
-      .then(subscribe())
-      .then(installDevice())
+      .then(subscribe)
+      .then(installDevice)
       .then(function(){ console.log('Done'); });
   }
 }
