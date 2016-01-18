@@ -11,8 +11,9 @@
 <section>
   <label>email</label><input id="email" type="text"/><br/>
   <label>password</label><input id="pass" type="password"/><br/>
-  <button onclick="signup()">Sign up</button></br>
-  <button onclick="login()">Log in</button></br>
+  <button id="button_signup" onclick="signup()">Sign up</button></br>
+  <button id="button_login" onclick="login()">Log in</button></br>
+  <button id="button_send" onclick="sendMessage()" style="display:none">Send message</button></br>
 </section>
 
 <script src="https://code.jquery.com/jquery-1.9.0.min.js"></script>
@@ -92,11 +93,14 @@ function login() {
   if (app.token == null) {
     loginAsync(email, password)
       .then(subscribe)
-      .then(installDevice);
+      .then(installDevice)
+      .then(showSendButton)
+      .then(function(){ console.log('Done'); });
   } else {
     loginAsync(email, password)
       .then(subscribe)
       .then(installDevice)
+      .then(showSendButton)
       .then(function(){ console.log('Done'); });
   }
 }
@@ -177,6 +181,13 @@ function subscribeTopic() {
       }
     });
   });
+}
+
+function showSendButton() {
+  $('#button_signup').hide();
+  $('#button_login').hide();
+  $('#button_login').show();
+  Promise.resolve();
 }
 
 
