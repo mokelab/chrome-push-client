@@ -118,6 +118,7 @@ function loginAsync(email, password) {
   return new Promise(function(resolve, reject){
     api.login(email, password, {
       success : function(user) {
+        console.log(context);
         resolve();
       },
       error : function(status, msg) {
