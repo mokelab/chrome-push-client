@@ -21,7 +21,8 @@
 <script type="text/javascript">
 var client = new GCMClientImpl();
 var app = {
-  token : null
+  token : null,
+  userId : null
 };
 
 window.addEventListener('load', function () {
@@ -78,7 +79,10 @@ function signup() {
     emailAddress : email
   };
   signupAsync(email, password)
-  .then(function(){ return loginAsync(email, password);});
+    .then(function(){ return loginAsync(email, password);})
+    .then(createTopic)
+    .then(subscribeTopic)
+    .then(function(){ console.log('Signup done'); });
 }
 
 function login() {
@@ -118,7 +122,7 @@ function loginAsync(email, password) {
   return new Promise(function(resolve, reject){
     api.login(email, password, {
       success : function(user) {
-        console.log(context);
+        app.userId = user.getId();
         resolve();
       },
       error : function(status, msg) {
@@ -131,13 +135,44 @@ function loginAsync(email, password) {
 
 function installDevice() {
   return new Promise(function(resolve, reject){
-    console.log(context);
     api.userAPI().installDevice(null, 'ANDROID', app.token, false, {
       success : function() {
         resolve();
       },
       error : function(status, msg) {
         console.log('Failed to install device status=' + status + ' msg=' + msg);
+        reject();
+      }
+    });
+  });
+}
+
+function createTopic() {
+  return new Promise(function(resolve, reject){
+    var user = new KiiUser(app.userId);
+    var topic = new KiiTopic(user, 'demo');
+    api.topicAPI().create(topic, {
+      success : function() {
+        resolve();
+      },
+      error : function(status, msg) {
+        console.log('Failed to create status=' + status + ' msg=' + msg);
+        reject();
+      }
+    });
+  });
+}
+
+function subscribeTopic() {
+  return new Promise(function(resolve, reject){
+    var user = new KiiUser(app.userId);
+    var topic = new KiiTopic(user, 'demo');
+    api.userAPI().subscribe(user, topic, {
+      success : function() {
+        resolve();
+      },
+      error : function(status, msg) {
+        console.log('Failed to create status=' + status + ' msg=' + msg);
         reject();
       }
     });
