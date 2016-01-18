@@ -50,15 +50,18 @@ function initialiseState() {
 }
 
 function subscribe() {
-  client.subscribe({
-    success : function(token) {
-      console.log('token=' + token);
-      app.token = token;
-      installDevice();
-    },
-    error : function(err) {
-      console.log('failed to subscribe ' + err);
-    }
+  return new Promise(function(resolve, reject){
+    client.subscribe({
+      success : function(token) {
+        console.log('token=' + token);
+        app.token = token;
+        resolve();
+      },
+      error : function(err) {
+        console.log('failed to subscribe ' + err);
+        reject();
+      }
+    });
   });
 }
 
@@ -82,30 +85,16 @@ function login() {
   var email = $('#email').val();
   var password = $('#pass').val();
 
-  api.login(email, password, {
-    success : function(user) {
-      console.log('Done token=' + context.getAccessToken());
-      if (app.token == null) {
-        subscribe();
-      } else {
-        installDevice();
-      }
-    },
-    error : function(status, msg) {
-      console.log('Failed to login status=' + status + ' msg=' + msg);
-    }
-  });
-}
-
-function installDevice() {
-  api.userAPI().installDevice(null, 'ANDROID', app.token, false, {
-    success : function() {
-      console.log('Done install');
-    },
-    error : function(status, msg) {
-      console.log('Failed to install device status=' + status + ' msg=' + msg);
-    }
-  });
+  if (app.token == null) {
+    loginAsync(email, password)
+      .then(subscribe())
+      .then(installDevice());
+  } else {
+    loginAsync(email, password)
+      .then(subscribe())
+      .then(installDevice())
+      .then(function(){ console.log('Done'); });
+  }
 }
 
 function signupAsync(email, password) {
@@ -138,6 +127,21 @@ function loginAsync(email, password) {
     });
   });
 }
+
+function installDevice() {
+  return new Promise(function(resolve, reject){
+    api.userAPI().installDevice(null, 'ANDROID', app.token, false, {
+      success : function() {
+        resolve();
+      },
+      error : function(status, msg) {
+        console.log('Failed to install device status=' + status + ' msg=' + msg);
+        reject();
+      }
+    });
+  });
+}
+
 
 </script>
 </body>
