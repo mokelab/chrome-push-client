@@ -130,6 +130,7 @@ function loginAsync(email, password) {
 
 function installDevice() {
   return new Promise(function(resolve, reject){
+    console.log(context);
     api.userAPI().installDevice(null, 'ANDROID', app.token, false, {
       success : function() {
         resolve();
