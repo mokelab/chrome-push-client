@@ -35,6 +35,14 @@ Adds the following <link> tag to <head></head>
 <link rel="manifest" href="./manifest.json">
 ```
 
+## Adds this library
+
+This library is just a single `.js` file.
+
+```
+<script src="./GCMClientImpl.js"></script>
+```
+
 ## Gets device token from GCM server
 
 Creates `GCMClientImpl` 
