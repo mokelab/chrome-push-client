@@ -34,3 +34,60 @@ Adds the following <link> tag to <head></head>
 ```
 <link rel="manifest" href="./manifest.json">
 ```
+
+## Gets device token from GCM server
+
+Creates `GCMClientImpl` 
+
+```
+var client = new GCMClientImpl();
+```
+
+Registers your service worker. 
+
+```
+window.addEventListener('load', function () {
+  if (!client.isServiceWorkerEnabled()) {
+    console.log('Service worker is disabled...');
+    return;
+  }
+  if (!client.isNotificationEnabled()) {
+    console.log('Notification is disabled...');
+    return;
+  }
+  navigator.serviceWorker.register('./service-worker.js')  
+    .then(initialiseState);  
+});
+```
+
+In `initialiseState`, gets stored subscription by `client.getSubscription()`
+
+```
+function initialiseState() {
+  client.getSubscription({
+    success : function(token) {
+      // sends this token to your server
+      console.log('token=' + token);
+    },
+    error : function(err) {
+      console.log('failed to get subscription ' + err);
+    }
+  });
+}
+```
+
+When user clicks "subscribe" button on your web app, call `client.subscribe()`
+
+```
+client.subscribe({
+  success : function(token) {
+    // sends this token to your server
+    console.log('token=' + token);
+  },
+  error : function(err) {
+    console.log('failed to subscribe ' + err);
+  }
+});
+```
+
+That's all!
